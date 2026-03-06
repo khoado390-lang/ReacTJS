@@ -5,14 +5,15 @@ import { FlagFilled } from '@ant-design/icons'
 
 function Task({ closeModal, addTask, statusId, editingTask, updateTask }) {
     const [flagId, setFlagId] = useState(1);
-    const [title, setTitle] = useState(editingTask ? editingTask.title : "");
+    const [title, setTitle] = useState(editingTask ? editingTask.title : ""); 
+    // Nếu edit task → lấy title cũ .Nếu tạo mới → để trống
     const [description, setDescription] = useState(editingTask ? editingTask.description : "");
     const [deadline, setDeadline] = useState(
         editingTask
             ? new Date(editingTask.deadline).toISOString().split("T")[0]
             : ""
     );
-    const [assignedTo, setAssignedTo] = useState(1);
+    const [assignedTo, setAssignedTo] = useState(1);//Nếu tạo mới → để trống
     const [status, setStatus] = useState(
         editingTask ? editingTask.statusId : statusId
     );
@@ -42,7 +43,7 @@ function Task({ closeModal, addTask, statusId, editingTask, updateTask }) {
             taskId: editingTask ? editingTask.taskId : Date.now(),
             title: title,
             description: description,
-            statusId: Number(statusId),
+            statusId: Number(status),
             flagId: Number(flagId),
             assignedTo: Number(assignedTo),
             deadline: new Date(deadline)
@@ -52,8 +53,6 @@ function Task({ closeModal, addTask, statusId, editingTask, updateTask }) {
         } else {
             addTask(newTask);
         }
-
-
         closeModal();
     };
     return (
@@ -128,16 +127,25 @@ function Task({ closeModal, addTask, statusId, editingTask, updateTask }) {
                 <div className="form-row">
                     <div className="form-group small">
                         <label>Status</label>
-                        <input
-                            type="text"
-                            value={
-                                statusId === 1 ? "To Do" :
-                                    statusId === 2 ? "In Progress" :
-                                        statusId === 3 ? "In Review" :
-                                            "Done"
-                            }
-                            disabled
-                        />
+{statusId ? (
+  <input
+    type="text"
+    value={
+      statusId === 1 ? "To Do" :
+      statusId === 2 ? "In Progress" :
+      statusId === 3 ? "In Review" :
+      "Done"
+    }
+    disabled
+  />
+) : (
+  <select value={status} onChange={(e) => setStatus(e.target.value)}>
+    <option value={1}>To Do</option>
+    <option value={2}>In Progress</option>
+    <option value={3}>In Review</option>
+    <option value={4}>Done</option>
+  </select>
+)}
                     </div>
                 </div>
                 <div className="form-footer">

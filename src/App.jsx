@@ -22,6 +22,7 @@ function App() {
     setShowModal(true);
   };
   const openModal = (status) => {
+    setEditingTask(null);
     setCurrentStatus(status);
     setShowModal(true);
   };
@@ -42,6 +43,7 @@ function App() {
             className='newitembtt'
             onClick={() => {
               setEditingTask(null);
+              setCurrentStatus(null);
               setShowModal(true);
             }}
           >
@@ -91,7 +93,7 @@ function App() {
             editingTask={editingTask}
             updateTask={updateTask} 
           />
-        )}
+        )}  
       </main>
     </div>
   );
